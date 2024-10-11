@@ -1,0 +1,54 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f4f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+}
+
+.card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px; /* Spacing between each item */
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="number"],
+input[type="date"],
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.result {
+    margin-top: 15px; /* Spacing for the result display */
+    font-weight: bold;
+}

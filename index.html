@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Our Interest Calculator</title>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>💰 Ease Your Business</h1>
+            <div class="form-group">
+                <label for="principal">मूल राशि:</label>
+                <input type="number" id="principal" placeholder="Enter Principal Amount" required>
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="rate">ब्याज दर:</label>
+                <input type="number" id="rate" value="2" placeholder="Enter rate of interest per month">
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="startDate">प्रारंभ तिथि (Start Date):</label>
+                <input type="date" id="startDate" max="">
+            </div>
+            <br>
+            <input type="submit" value="Calculate Interest" onClick="calculateInterest()">
+            <br><br>
+            <span id="show" class="result"></span><br>
+            <span id="totalAmountDisplay" class="result"></span><br>
+            <span id="timeDisplay" class="result"></span>
+        </div>
+    </div>
+
+    <script>
+        // Set the max attribute of the startDate input to today's date
+        document.getElementById('startDate').max = new Date().toISOString().split('T')[0];
+
+        function calculateInterest() {
+            const principal = parseFloat(document.getElementById('principal').value);
+            const ratePerMonth = parseFloat(document.getElementById('rate').value);
+            const startDate = new Date(document.getElementById('startDate').value);
+            const currentDate = new Date();
+
+            if (isNaN(principal) || isNaN(ratePerMonth) || isNaN(startDate.getTime())) {
+                document.getElementById("show").innerText = 'Please enter valid values for all fields.';
+                return;
+            }
+
+            if (startDate > currentDate) {
+                document.getElementById("show").innerText = 'The start date cannot be in the future.';
+                return;
+            }
+
+            let years = currentDate.getFullYear() - startDate.getFullYear();
+            if (currentDate.getMonth() < startDate.getMonth() || 
+               (currentDate.getMonth() === startDate.getMonth() && currentDate.getDate() < startDate.getDate())) {
+                years--;
+            }
+
+            let months = (currentDate.getMonth() - startDate.getMonth() + 12) % 12;
+            if (currentDate.getDate() < startDate.getDate()) {
+                months = (months - 1 + 12) % 12;
+            }
+
+            let days = currentDate.getDate() - startDate.getDate();
+            if (days < 0) {
+                const previousMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
+                days += previousMonth.getDate();
+            }
+
+            const interestForYears = (principal * ratePerMonth * 12 * years) / 100;
+            const interestForMonths = (principal * ratePerMonth * months) / 100;
+            const interestForDays = (principal * ratePerMonth * (days / 30)) / 100;
+
+            const totalSimpleInterest = interestForYears + interestForMonths + interestForDays;
+            const totalAmount = principal + totalSimpleInterest;
+
+            document.getElementById("show").innerText = `Interest: ₹${totalSimpleInterest.toFixed(2)}`;
+            document.getElementById("totalAmountDisplay").innerText = `Total Amount: ₹${totalAmount.toFixed(2)}`;
+            document.getElementById("timeDisplay").innerText = `Time: ${years} years, ${months} months, and ${days} days`;
+        }
+    </script>
+</body>
+</html>
